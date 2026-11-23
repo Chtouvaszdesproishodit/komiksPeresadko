@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peresadko Comics</title>
+    
+    <style>
+        /* Подключаем шрифт Virilica */
+        @font-face {
+            font-family: 'Virilica';
+            src: url('Virilica.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background-color: #f0f0f0;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .phone-bezel {
+            position: relative;
+            background-color: #1a1a2e;
+            padding: 8px;
+            border-radius: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            width: 420px;
+            height: 800px;
+            margin: auto;
+            box-sizing: border-box;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .notch {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 175px;
+            height: 17px;
+            background-color: #1a1a2e;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 10;
+        }
+
+        .screen {
+            position: relative;
+            border-radius: 28px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            box-sizing: border-box;
+        }
+
+        .stage {
+            position: relative;
+            flex-shrink: 0;
+            z-index: 2;
+
+            --sw: 404px;
+
+            width: var(--sw);
+            height: calc(var(--sw) * 784 / 404);
+
+            background-image: url('comics_bg.jpg');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* --- КНОПКИ-ОБЛАЧКА --- */
+        .btn {
+            --bs: 1;
+
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+
+            color: #e07a70;
+            font-family: 'Virilica', cursive;
+
+            /* Размер: 0.065 вместо 0.062 — подписи чуть крупнее */
+            font-size: calc(var(--sw) * 0.065 * var(--bs));
+
+            font-weight: normal;
+
+            border: none;
+            background-color: transparent;
+            box-sizing: border-box;
+            cursor: pointer;
+            transform-origin: center;
+            transform: scale(var(--bs));
+
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+
+            filter: drop-shadow(0px 4px 5px rgba(0,0,0,0.3));
+            transition: transform 0.15s ease-out, filter 0.15s ease-out;
+        }
+
+        @media (hover: hover) {
+            .btn:hover {
+                transform: scale(calc(var(--bs) * 0.90));
+                filter: drop-shadow(0px 20px 30px rgba(0,0,0,0.9));
+                z-index: 10;
+            }
+        }
+        .btn:active {
+            transform: scale(calc(var(--bs) * 0.90));
+            filter: drop-shadow(0px 20px 30px rgba(0,0,0,0.9));
+            z-index: 10;
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid #1a1a2e;
+            outline-offset: -8px;
+            border-radius: 16px;
+        }
+
+        .btn-1 {
+            background-image: url('bubble1.png');
+            left: calc(var(--sw) * -0.167);
+            top: calc(var(--sw) * 0.621);
+            height: calc(var(--sw) * 0.495);
+            width: 95%;
+            z-index: 3;
+        }
+
+        .btn-2 {
+            background-image: url('bubble2.png');
+            left: calc(var(--sw) * 0.161);
+            top: calc(var(--sw) * 0.919);
+            height: calc(var(--sw) * 0.545);
+            width: 100%;
+            z-index: 4;
+        }
+
+        .btn-3 {
+            background-image: url('bubble3.png');
+            left: calc(var(--sw) * 0.007);
+            top: calc(var(--sw) * 1.376);
+            height: calc(var(--sw) * 0.446);
+            width: 90%;
+            z-index: 5;
+        }
+
+        .btn-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            text-shadow: 0px 2px 4px rgba(255, 255, 255, 0.9);
+
+            /* Лёгкая обводка = аккуратная «чуть-чуть жирность» */
+            -webkit-text-stroke: 0.35px #e07a70;
+        }
+
+        .btn-1 .btn-text { transform: translateY(calc(var(--sw) * -0.012 * var(--bs))); }
+        .btn-2 .btn-text { transform: translateX(calc(var(--sw) * 0.012 * var(--bs))); }
+
+        @media (max-width: 620px) { .btn { --bs: 0.9; } }
+        @media (max-width: 480px) { .btn { --bs: 0.85; } }
+        @media (max-width: 410px) { .btn { --bs: 0.85; } }
+        @media (max-width: 350px) { .btn { --bs: 0.80; } }
+
+        @media (max-width: 1300px) {
+            html { overflow-x: hidden; }
+            body { display: block; overflow-x: hidden; }
+            .phone-bezel {
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                border-radius: 0;
+                padding: 0;
+                box-shadow: none;
+                background-color: transparent;
+            }
+            .notch { display: none; }
+            .screen {
+                border-radius: 0;
+                height: auto;
+                overflow: visible;
+                display: block;
+            }
+
+            .stage { --sw: 100vw; }
+            @supports (width: max(1px, 2px)) {
+                .stage { --sw: max(100vw, calc(100vh * 404 / 784)); }
+            }
+            @supports (width: max(1px, 2px)) and (width: 1dvh) {
+                .stage { --sw: max(100vw, calc(100dvh * 404 / 784)); }
+            }
+
+            .stage {
+                width: var(--sw);
+                height: calc(var(--sw) * 784 / 404);
+                margin-left: calc((100vw - var(--sw)) / 2);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-bezel">
+        <div class="notch"></div>
+
+        <div class="screen">
+
+            <div class="stage">
+
+                <a href="https://web.archive.org/web/20261112235053/https://cdn.readovka.ru/135/0/41/33f04fcd5f906b2/photo_2023_03_06_13_58_5.jpg" target="_blank" rel="noopener noreferrer" class="btn btn-1">
+                    <div class="btn-text">Рис.1</div>
+                </a>
+
+                <a href="https://web.archive.org/web/20261112235053/https://cdn.readovka.ru/135/0/41/f2d104f5003d1a4/photo_2023_03_06_13_58_54.jpg" target="_blank" rel="noopener noreferrer" class="btn btn-2">
+                    <div class="btn-text">Рис.2</div>
+                </a>
+
+                <a href="https://web.archive.org/web/20261112235053/https://cdn.readovka.ru/135/0/41/8859c5dfb209c6e/photo_2023_03_06_13_58_55.jpg" target="_blank" rel="noopener noreferrer" class="btn btn-3">
+                    <div class="btn-text">Рис.3</div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
